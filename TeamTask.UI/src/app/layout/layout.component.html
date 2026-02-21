@@ -1,0 +1,23 @@
+<div class="min-h-screen surface-ground">
+
+
+  <div class="shadow-2">
+    <p-menubar [model]="items"></p-menubar>
+  </div>
+
+
+  <div class="p-4 flex justify-content-center">
+    <div class="w-full xl:w-10">
+
+      <p-card styleClass="shadow-3 border-round-xl">
+
+        <ng-template pTemplate="content">
+          <router-outlet></router-outlet>
+        </ng-template>
+
+      </p-card>
+
+    </div>
+  </div>
+
+</div>

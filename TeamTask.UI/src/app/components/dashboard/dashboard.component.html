@@ -1,0 +1,153 @@
+<div class="mb-4">
+  <h2 class="m-0">Vistas de desempeño</h2>
+  <span class="text-color-secondary">
+    Monitoreo de desempeño.
+  </span>
+</div>
+
+<p-divider></p-divider>
+
+<p-tabs>
+
+  <p-tablist>
+    <p-tab value="devs">Carga por desarrollador</p-tab>
+    <p-tab value="projects">Estado por proyectos</p-tab>
+    <p-tab value="tasks">Riesgo de retraso</p-tab>
+  </p-tablist>
+
+  <p-tabpanels>
+
+  
+    <p-tabpanel value="devs">
+
+      <p-panel header="Distribución de carga" styleClass="border-round-lg">
+
+        <p-table
+          [value]="developerWorkload"
+          [paginator]="true"
+          [rows]="5"
+          styleClass="p-datatable-sm"
+        >
+
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Desarrollador</th>
+              <th>Tareas abiertas</th>
+              <th>Complejidad estimada</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-dev>
+            <tr>
+              <td>{{ dev.developerName }}</td>
+              <td>
+                <p-tag [value]="dev.opentaskCount?.toString()" severity="info"></p-tag>
+              </td>
+              <td>{{ dev.avgEstimatedComplexity }}</td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+
+      </p-panel>
+
+    </p-tabpanel>
+
+
+    <p-tabpanel value="projects">
+
+      <p-panel header="Estado general de proyectos">
+
+        <p-table
+          [value]="projectHealth"
+          [paginator]="true"
+          [rows]="5"
+          
+          styleClass="p-datatable-sm"
+        >
+
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Proyecto</th>
+              <th>Tareas abiertas</th>
+              <th>Tareas completas</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-project>
+            <tr>
+              <td>{{ project.projectName }}</td>
+              <td>
+                <p-tag
+                  [value]="project.openTasks"
+                  [severity]="project.openTasks > 0 ? 'warn' : 'success'">
+                </p-tag>
+              </td>
+                <td>
+                    <p-tag
+                    [value]="project.completedTasks"
+                    [severity]="project.completedTasks > 0 ? 'success' : 'warn'">
+                    </p-tag>
+                </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+
+      </p-panel>
+
+    </p-tabpanel>
+
+
+    <p-tabpanel value="tasks">
+
+      <p-panel header="Indicadores de riesgo">
+
+        <p-table
+          [value]="developerDelayRisk"
+          [paginator]="true"
+          [rows]="5"
+            [scrollable]="true"
+  scrollDirection="horizontal"
+  scrollHeight="flex"
+          styleClass="p-datatable-sm"
+        >
+
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Desarrollador</th>
+              <th>Numero de tareas</th>
+              <th>Dias de retraso promedio</th>
+              <th>Fecha más próxima</th>
+              <th>Fecha estimada de entrega</th>
+              <th>Fecha real de entrega</th>
+              <th>Desviacion</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-task>
+            <tr>
+              <td>{{ task.developerName }}</td>
+              <td>
+                <p-tag [value]="task.openTasksCount" severity="info"></p-tag>
+              </td>
+              <td>{{ task.averageDelayDays }}</td>
+              <td>{{ task.nearestDueDate | formatDate }}</td>
+              <td>{{ task.latestDueDate | formatDate }}</td>
+              <td>{{ task.predictedCompletionDate | formatDate }}</td>
+              <td>
+                <p-tag [value]="task.highRiskFlag? 'Si' : 'No'" [severity]="task.highRiskFlag? 'warn' : 'success'"></p-tag>
+              </td>
+            
+            </tr>
+          </ng-template>
+
+        </p-table>
+
+      </p-panel>
+
+    </p-tabpanel>
+
+  </p-tabpanels>
+
+</p-tabs>
